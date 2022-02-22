@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_decoration_social",
+  "info": {
+    "displayName": "Social",
+    "icon": "laptop-code",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "network": {
+      "type": "enumeration",
+      "enum": [
+        "instagram",
+        "facebook",
+        "linkedin",
+        "twitter"
+      ],
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
