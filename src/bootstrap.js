@@ -108,7 +108,7 @@ const createEntry = async ({ model, entry, files }) => {
 const createAdminUser = async () => {
   if (process.env.ADMIN_CREATE === "false") {
     console.log(
-      `CREATE_ADMIN option is defined as ${process.env.ADMIN_CREATE} in env config. Skiping user creation`
+      `ADMIN_CREATE option is defined as ${process.env.ADMIN_CREATE} in env config. Skiping user creation`
     );
     return;
   }
@@ -220,9 +220,9 @@ const importSeedData = async () => {
   // Allow read of application content types
   await setPublicPermissions({
     global: ["find"],
-    article: ["find", "findOne"],
     category: ["find", "findOne"],
     writer: ["find", "findOne"],
+    article: ["find", "findOne"],
   });
 
   console.log("Bootstraping data...");
@@ -237,20 +237,20 @@ const importSeedData = async () => {
 module.exports = async () => {
   const shouldImportSeedData = await isFirstRun();
 
-  if (shouldImportSeedData) {
-    console.log("First install, let's check if we have to create some data...");
-    await createAdminUser();
+  // if (shouldImportSeedData) {
+  console.log("First install, let's check if we have to create some data...");
+  await createAdminUser();
 
-    // Check if is first run and if BOOTSTRAP_CONTENT env var is true
-    if (process.env.BOOTSTRAP_CONTENT === "true") {
-      try {
-        console.log("Setting up the template...");
-        await importSeedData();
-        console.log("Ready to go!");
-      } catch (error) {
-        console.log("Could not import seed data...");
-        console.error(error);
-      }
+  // Check if is first run and if BOOTSTRAP_CONTENT env var is true
+  if (process.env.BOOTSTRAP_CONTENT === "true") {
+    try {
+      console.log("Setting up the template...");
+      await importSeedData();
+      console.log("Ready to go!");
+    } catch (error) {
+      console.log("Could not import seed data...");
+      console.error(error);
     }
   }
+  // }
 };
