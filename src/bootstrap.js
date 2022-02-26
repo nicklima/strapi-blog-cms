@@ -237,20 +237,20 @@ const importSeedData = async () => {
 module.exports = async () => {
   const shouldImportSeedData = await isFirstRun();
 
-  // if (shouldImportSeedData) {
-  console.log("First install, let's check if we have to create some data...");
-  await createAdminUser();
-
-  // Check if is first run and if BOOTSTRAP_CONTENT env var is true
-  if (process.env.BOOTSTRAP_CONTENT === "true") {
-    try {
-      console.log("Setting up the template...");
-      await importSeedData();
-      console.log("Ready to go!");
-    } catch (error) {
-      console.log("Could not import seed data...");
-      console.error(error);
+  if (shouldImportSeedData) {
+    // Check if is first run and if BOOTSTRAP_CONTENT env var is true
+    if (process.env.BOOTSTRAP_CONTENT === "true") {
+      try {
+        console.log("Setting up the template...");
+        await importSeedData();
+        console.log("Ready to go!");
+      } catch (error) {
+        console.log("Could not import seed data...");
+        console.error(error);
+      }
     }
+
+    console.log("First install, let's check if we have to create some data...");
+    await createAdminUser();
   }
-  // }
 };
