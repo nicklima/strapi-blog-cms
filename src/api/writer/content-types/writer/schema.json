@@ -17,6 +17,10 @@
     "name": {
       "type": "string"
     },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
     "picture": {
       "type": "media",
       "multiple": false,
@@ -34,15 +38,15 @@
     "email": {
       "type": "string"
     },
+    "about": {
+      "type": "text",
+      "required": true
+    },
     "social": {
       "displayName": "social ",
       "type": "component",
       "repeatable": true,
       "component": "sections.social"
-    },
-    "about": {
-      "type": "text",
-      "required": true
     }
   }
 }
