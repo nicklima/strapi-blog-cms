@@ -117,20 +117,6 @@ Para isso devemos utilizar a função `bootstrap` do Strapi definida nos arquivo
 ```js
 "use strict";
 
-const boostrap = require("./bootstrap");
-
-module.exports = {
-  async bootstrap() {
-    await boostrap();
-  },
-};
-```
-
-`./src/bootstrap.js`
-
-```js
-"use strict";
-
 const fs = require("fs");
 const mime = require("mime-types");
 const set = require("lodash.set");
@@ -235,64 +221,7 @@ const createEntry = async ({ model, entry, files }) => {
   }
 };
 
-// Create first user admin
-const createAdminUser = async () => {
-  if (process.env.ADMIN_CREATE === "false") {
-    console.log(
-      `CREATE_ADMIN option is defined as ${process.env.ADMIN_CREATE} in env config. Skiping user creation`
-    );
-    return;
-  }
-
-  // Check if admin user exists
-  const hasAdmin = await strapi.service("admin::user").exists();
-  if (hasAdmin) {
-    return;
-  }
-
-  // Check is super admin role exists
-  let superAdminRole = await strapi.service("admin::role").getSuperAdmin();
-  if (!superAdminRole) {
-    try {
-      console.log("Role does not exists, creating role");
-      await strapi.service("admin::role").create({
-        name: "Super Admin",
-        code: "strapi-super-admin",
-        description:
-          "Super Admins can access and manage all features and settings.",
-      });
-    } catch (error) {
-      console.log("Could not create admin role...");
-      console.error(error);
-    }
-
-    superAdminRole = await strapi.service("admin::role").getSuperAdmin();
-    if (!superAdminRole) {
-      console.log("can't create the role. Skiping user creation...");
-      return;
-    }
-  }
-
-  try {
-    // Create admin account
-    console.log("Setting up admin user...");
-    await strapi.service("admin::user").create({
-      username: process.env.ADMIN_USERNAME,
-      email: process.env.ADMIN_EMAIL,
-      firstname: process.env.ADMIN_FN,
-      lastname: process.env.ADMIN_LN,
-      password: process.env.ADMIN_PASS,
-      isActive: true,
-      blocked: false,
-      registrationToken: null,
-      roles: superAdminRole ? [superAdminRole.id] : [],
-    });
-    console.info("Admin Account created...");
-  } catch (error) {
-    console.log("Could not create admin user...");
-    console.error(error);
-  }
-};
+// Import Data from ./data/data.json
 
 async function importCategories() {
   return Promise.all(
@@ -351,9 +280,9 @@ const importSeedData = async () => {
   // Allow read of application content types
   await setPublicPermissions({
     global: ["find"],
-    article: ["find", "findOne"],
     category: ["find", "findOne"],
     writer: ["find", "findOne"],
+    article: ["find", "findOne"],
   });
 
   console.log("Bootstraping data...");
@@ -366,23 +295,17 @@ const importSeedData = async () => {
 
 // Run bootstrap functions
 module.exports = async () => {
-  // Check if is first run and if BOOTSTRAP_CONTENT env var is true
-  const bootstrapContent = process.env.BOOTSTRAP_CONTENT;
   const shouldImportSeedData = await isFirstRun();
 
   if (shouldImportSeedData) {
     console.log("First install, let's check if we have to create some data...");
-    await createAdminUser();
-
-    if (bootstrapContent === "true") {
-      try {
-        console.log("Setting up the template...");
-        await importSeedData();
-        console.log("Ready to go!");
-      } catch (error) {
-        console.log("Could not import seed data...");
-        console.error(error);
-      }
+    try {
+      console.log("Setting up the template...");
+      await importSeedData();
+      console.log("Content imported!");
+    } catch (error) {
+      console.log("Could not import seed data...");
+      console.error(error);
     }
   }
 };
@@ -392,11 +315,6 @@ Nesse exemplo de código estamos utilizando os dados contidos no JSON `data.json
 As imagens importadas dessa forma estão inseridas dentro da pasta `./data/uploads` e serão tratadas no código.
 
 Nesse código de exemplo as imagens precisam ser nomeadas com o mesmo slug definido no JSON.\
-Pra gerar conteúdo na primeira instalação será necessário passar a variável `BOOTSTRAP_CONTENT` com o valor `true` no seu arquivo `.env`.\
-Ex: `BOOTSTRAP_CONTENT=true`
-
-Também adicionei ao bootstrap a função `createAdminUser()` que criará o primeiro usuário de ADMIN durante a instalação do STRAPI.\
-Os dados do usuário padrão devem ser passados nas variáveis de ambiente. Caso opte por não criar o ADMIN de forma automática, basta passar false na variável `ADMIN_CREATE=false`
 
 `NOTA:`
 
@@ -413,6 +331,14 @@ Então não precisamos nos preocupar com sobrescrita dos dados.
 - Inclusão do modelo das variáveis de ambiente do projeto no `.env.example`
 - Criação dos Content-Types `Articles`, `Categories`, `Writers` e `Globals`/`SEO` que irá gerar os METADADOS de SEO para uso nas aplicações frontend
 - Inserção automática do conteúdo de `POSTS`, `CATEGORIAS`, `GLOBALS/SEO` e geração do `ADMIN USER` utilizando a função `bootstrap()` do Strapi no arquivo `./src/bootstrap.js`
+
+### 1.0.1
+
+- Ajuste na ordem das funções do `./src/bootstrap.js` e remoção da variável de ambiente `BOOTSTRAP_CONTENT`
+- Ajuste dos tamanhos e pesos das imagens em `./data/uploads`
+- Inclusão dos campos de redes sociais no bootstrap dos `writers`
+- Atualização do strapi para a versão `4.1.1`
+- Removida a opção de criar usuário automaticamente com a função `createAdminUser()` para evitar bug com os `roles`
 
 <br/>
 
