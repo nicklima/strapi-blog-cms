@@ -104,64 +104,7 @@ const createEntry = async ({ model, entry, files }) => {
   }
 };
 
-// Create first user admin
-const createAdminUser = async () => {
-  if (process.env.ADMIN_CREATE === "false") {
-    console.log(
-      `ADMIN_CREATE option is defined as ${process.env.ADMIN_CREATE} in env config. Skiping user creation`
-    );
-    return;
-  }
-
-  // Check if admin user exists
-  const hasAdmin = await strapi.service("admin::user").exists();
-  if (hasAdmin) {
-    return;
-  }
-
-  // Check is super admin role exists
-  let superAdminRole = await strapi.service("admin::role").getSuperAdmin();
-  if (!superAdminRole) {
-    try {
-      console.log("Role does not exists, creating role");
-      await strapi.service("admin::role").create({
-        name: "Super Admin",
-        code: "strapi-super-admin",
-        description:
-          "Super Admins can access and manage all features and settings.",
-      });
-    } catch (error) {
-      console.log("Could not create admin role...");
-      console.error(error);
-    }
-
-    superAdminRole = await strapi.service("admin::role").getSuperAdmin();
-    if (!superAdminRole) {
-      console.log("can't create the role. Skiping user creation...");
-      return;
-    }
-  }
-
-  try {
-    // Create admin account
-    console.log("Setting up admin user...");
-    await strapi.service("admin::user").create({
-      username: process.env.ADMIN_USERNAME,
-      email: process.env.ADMIN_EMAIL,
-      firstname: process.env.ADMIN_FN,
-      lastname: process.env.ADMIN_LN,
-      password: process.env.ADMIN_PASS,
-      isActive: true,
-      blocked: false,
-      registrationToken: null,
-      roles: superAdminRole ? [superAdminRole.id] : [],
-    });
-    console.info("Admin Account created...");
-  } catch (error) {
-    console.log("Could not create admin user...");
-    console.error(error);
-  }
-};
+// Import Data from ./data/data.json
 
 async function importCategories() {
   return Promise.all(
@@ -238,19 +181,14 @@ module.exports = async () => {
   const shouldImportSeedData = await isFirstRun();
 
   if (shouldImportSeedData) {
-    // Check if is first run and if BOOTSTRAP_CONTENT env var is true
-    if (process.env.BOOTSTRAP_CONTENT === "true") {
-      try {
-        console.log("Setting up the template...");
-        await importSeedData();
-        console.log("Ready to go!");
-      } catch (error) {
-        console.log("Could not import seed data...");
-        console.error(error);
-      }
-    }
-
     console.log("First install, let's check if we have to create some data...");
-    await createAdminUser();
+    try {
+      console.log("Setting up the template...");
+      await importSeedData();
+      console.log("Content imported!");
+    } catch (error) {
+      console.log("Could not import seed data...");
+      console.error(error);
+    }
   }
 };
