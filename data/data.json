@@ -1,4 +1,13 @@
 {
+  "global": {
+    "siteName": "Strapi Blog",
+    "defaultSeo": {
+      "metaTitle": "Homepage",
+      "metaDescription": "A blog made with Strapi",
+      "shareImage": null
+    },
+    "favicon": null
+  },
   "categories": [
     {
       "name": "tech",
@@ -222,14 +231,5 @@
       },
       "image": null
     }
-  ],
-  "global": {
-    "siteName": "Strapi Blog",
-    "defaultSeo": {
-      "metaTitle": "Page",
-      "metaDescription": "A blog made with Strapi",
-      "shareImage": null
-    },
-    "favicon": null
-  }
+  ]
 }
