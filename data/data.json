@@ -26,6 +26,7 @@
       "name": "Mr. Meeseeks",
       "email": "mrmeeseeks@strapi.io",
       "about": "Meeseeks are a powder-blue-skinned species of humanoids (each of whom is named \"Mr. Meeseeks\") who are created to serve a singular purpose for which they will go to any length to fulfill.",
+      "slug": "mr-meeseeks",
       "picture": null,
       "social": [
         {
@@ -44,6 +45,7 @@
     },
     {
       "name": "Son Goku",
+      "slug": "son-goku",
       "email": "songoku@strapi.io",
       "about": "Goku is a Saiyan male originally sent to destroy Earth as an infant. A head injury at an early age alters his memory, ridding him of his initial destructive nature and allowing him to grow up to become one of Earth's greatest defenders.",
       "picture": null,
