@@ -15,14 +15,17 @@
   },
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "slug": {
       "type": "uid",
-      "targetField": "name"
+      "targetField": "name",
+      "required": true
     },
     "email": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "about": {
       "type": "text",
@@ -31,7 +34,7 @@
     "picture": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images"
       ]
@@ -40,7 +43,8 @@
       "displayName": "social ",
       "type": "component",
       "repeatable": true,
-      "component": "sections.social"
+      "component": "sections.social",
+      "required": true
     },
     "articles": {
       "type": "relation",

@@ -36,13 +36,15 @@
         "images"
       ],
       "type": "media",
-      "multiple": false
+      "multiple": false,
+      "required": true
     },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::category.category",
-      "inversedBy": "articles"
+      "inversedBy": "articles",
+      "required": true
     },
     "author": {
       "type": "relation",
