@@ -1,6 +1,6 @@
 # Starter - Strapi CMS
 
-Template base para criação de um CMS utilizando Strapi com `Cloudinary` e `PostgreSQL`.
+Template for creating Strapi CMS using `Cloudinary` and `PostgreSQL`.
 
 <img src="strapi-admin.png"/>
 
