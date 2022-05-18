@@ -20,7 +20,7 @@
     "lodash.set": "^4.3.2",
     "mime-types": "^2.1.27",
     "pg": "^8.7.3",
-    "sqlite3": "5.0.2",
+    "sqlite3": "5.0.3",
     "strapi-plugin-local-image-sharp": "^1.0.2"
   },
   "author": {
