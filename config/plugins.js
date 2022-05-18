@@ -1,6 +1,13 @@
+let pluginConfig = {
+  seo: {
+    enabled: true,
+  },
+};
+
 module.exports = ({ env }) => {
   if (env("NODE_ENV") === "production") {
-    return {
+    pluginConfig = {
+      ...pluginConfig,
       upload: {
         config: {
           provider: "cloudinary",
@@ -14,5 +21,5 @@ module.exports = ({ env }) => {
     };
   }
 
-  return;
+  return pluginConfig;
 };

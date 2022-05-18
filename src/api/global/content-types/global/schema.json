@@ -18,12 +18,6 @@
       "type": "string",
       "required": true
     },
-    "defaultSeo": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.seo",
-      "required": true
-    },
     "favicon": {
       "type": "media",
       "multiple": false,
@@ -33,6 +27,23 @@
         "files",
         "videos"
       ]
+    },
+    "themeColor": {
+      "type": "string",
+      "required": true,
+      "default": "#1e1d32",
+      "regex": "^#(?:[0-9a-fA-F]{3}){1,2}$"
+    },
+    "tileColor": {
+      "type": "string",
+      "required": true,
+      "default": "#9692ff",
+      "regex": "^#(?:[0-9a-fA-F]{3}){1,2}$"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
     }
   }
 }

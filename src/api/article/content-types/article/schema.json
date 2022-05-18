@@ -5,7 +5,8 @@
     "singularName": "article",
     "pluralName": "articles",
     "displayName": "Article",
-    "name": "article"
+    "name": "article",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -32,25 +33,30 @@
       "required": true
     },
     "image": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::category.category",
-      "inversedBy": "articles",
-      "required": true
+      "inversedBy": "articles"
     },
     "author": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::writer.writer",
       "inversedBy": "articles"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo",
+      "required": false
     }
   }
 }
