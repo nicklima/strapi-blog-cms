@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 let pluginConfig = {
   seo: {
     enabled: true,
@@ -5,6 +7,7 @@ let pluginConfig = {
   "users-permissions": {
     config: {
       jwt: {
+        jwtSecret: crypto.randomBytes(16).toString("base64"),
         expiresIn: "7d",
       },
     },
