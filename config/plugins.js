@@ -2,6 +2,13 @@ let pluginConfig = {
   seo: {
     enabled: true,
   },
+  "users-permissions": {
+    config: {
+      jwt: {
+        expiresIn: "7d",
+      },
+    },
+  },
 };
 
 module.exports = ({ env }) => {
