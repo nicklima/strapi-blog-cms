@@ -16,7 +16,7 @@
     "@strapi/plugin-seo": "^1.7.2",
     "@strapi/plugin-users-permissions": "4.1.11",
     "@strapi/provider-upload-cloudinary": "^4.1.11",
-    "@strapi/strapi": "4.1.11",
+    "@strapi/strapi": "4.8.0",
     "better-sqlite3": "7.5.3",
     "lodash.set": "^4.3.2",
     "mime-types": "^2.1.35",
